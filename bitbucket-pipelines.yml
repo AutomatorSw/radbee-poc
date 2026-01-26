@@ -1,0 +1,120 @@
+image: mcr.microsoft.com/playwright:v1.57.0-noble
+
+definitions:
+  caches:
+    npm-cache: ~/.npm
+    playwright-cache: ~/ms-playwright
+
+  steps:
+    - step: &test-template
+        name: Run Tests
+        caches:
+          - npm-cache
+          - playwright-cache
+        script:
+          - npm ci
+          - npm test -- --project=$PROJECT
+        artifacts:
+          - reports/**
+          - test-results/**
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            <<: *test-template
+            name: Test Chromium
+            script:
+              - npm ci
+              - npm test -- --project=chromium
+            services:
+              - docker
+
+        - step:
+            <<: *test-template
+            name: Test Firefox
+            script:
+              - npm ci
+              - npm test -- --project=firefox
+            services:
+              - docker
+
+        - step:
+            <<: *test-template
+            name: Test WebKit
+            script:
+              - npm ci
+              - npm test -- --project=webkit
+            services:
+              - docker
+
+        - step:
+            <<: *test-template
+            name: Test API
+            script:
+              - npm ci
+              - npm test -- --project=api
+
+    - step:
+        name: Generate Report
+        script:
+          - echo "All tests completed"
+          - ls -R reports/ || true
+        artifacts:
+          - reports/**
+
+  branches:
+    master:
+      - parallel:
+          - step:
+              <<: *test-template
+              name: Test Chromium
+              script:
+                - npm ci
+                - npm test -- --project=chromium
+
+          - step:
+              <<: *test-template
+              name: Test Firefox
+              script:
+                - npm ci
+                - npm test -- --project=firefox
+
+          - step:
+              <<: *test-template
+              name: Test WebKit
+              script:
+                - npm ci
+                - npm test -- --project=webkit
+
+          - step:
+              <<: *test-template
+              name: Test API
+              script:
+                - npm ci
+                - npm test -- --project=api
+
+      - step:
+          name: Generate Report
+          script:
+            - echo "All tests completed on master"
+            - ls -R reports/ || true
+          artifacts:
+            - reports/**
+
+  pull-requests:
+    '**':
+      - parallel:
+          - step:
+              <<: *test-template
+              name: Test Chromium
+              script:
+                - npm ci
+                - npm test -- --project=chromium
+
+          - step:
+              <<: *test-template
+              name: Test API
+              script:
+                - npm ci
+                - npm test -- --project=api

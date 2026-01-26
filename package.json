@@ -1,0 +1,40 @@
+{
+  "name": "playwright-template",
+  "version": "1.0.0",
+  "description": "Playwright Template with POM, API Testing, and Multi-CI/CD Support",
+  "main": "index.js",
+  "scripts": {
+    "test": "dotenvx run -f .env.production -- playwright test",
+    "test:ui": "dotenvx run -f .env.production -- playwright test --grep @ui",
+    "test:api": "dotenvx run -f .env.production -- playwright test --grep @api",
+    "test:headed": "dotenvx run -f .env.production -- playwright test --headed",
+    "test:debug": "dotenvx run -f .env.production -- playwright test --debug",
+    "test:staging": "dotenvx run -f .env.staging -- playwright test",
+    "test:staging:ui": "dotenvx run -f .env.staging -- playwright test --grep @ui",
+    "test:staging:api": "dotenvx run -f .env.staging -- playwright test --grep @api",
+    "test:dev": "dotenvx run -f .env.development -- playwright test",
+    "test:dev:ui": "dotenvx run -f .env.development -- playwright test --grep @ui",
+    "test:dev:api": "dotenvx run -f .env.development -- playwright test --grep @api",
+    "test:report": "playwright show-report",
+    "test:codegen": "dotenvx run -f .env.development -- playwright codegen"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AutomatorSw/playwright-template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AutomatorSw/playwright-template/issues"
+  },
+  "homepage": "https://github.com/AutomatorSw/playwright-template#readme",
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^1.51.2",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

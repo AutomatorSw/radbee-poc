@@ -1,0 +1,13 @@
+node_modules
+dist
+build
+reports
+test-results
+playwright-report
+coverage
+*.min.js
+*.min.css
+package-lock.json
+.env
+.env.*
+!.env.example

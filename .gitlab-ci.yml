@@ -1,0 +1,74 @@
+image: mcr.microsoft.com/playwright:v1.57.0-noble
+
+stages:
+  - test
+  - report
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+  PLAYWRIGHT_BROWSERS_PATH: "$CI_PROJECT_DIR/ms-playwright"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .npm/
+    - node_modules/
+    - ms-playwright/
+
+before_script:
+  - npm ci
+
+.test_template:
+  stage: test
+  script:
+    - npm test -- --project=$PROJECT
+  artifacts:
+    when: always
+    paths:
+      - reports/
+      - test-results/
+    expire_in: 30 days
+  environment:
+    name: $CI_COMMIT_REF_NAME
+
+test:chromium:
+  extends: .test_template
+  variables:
+    PROJECT: "chromium"
+    DOTENV_PRIVATE_KEY: $DOTENV_PRIVATE_KEY
+
+test:firefox:
+  extends: .test_template
+  variables:
+    PROJECT: "firefox"
+    DOTENV_PRIVATE_KEY: $DOTENV_PRIVATE_KEY
+
+test:webkit:
+  extends: .test_template
+  variables:
+    PROJECT: "webkit"
+    DOTENV_PRIVATE_KEY: $DOTENV_PRIVATE_KEY
+
+test:api:
+  extends: .test_template
+  variables:
+    PROJECT: "api"
+    DOTENV_PRIVATE_KEY: $DOTENV_PRIVATE_KEY
+
+report:
+  stage: report
+  script:
+    - echo "All tests completed"
+    - ls -R reports/ || true
+  artifacts:
+    when: always
+    paths:
+      - reports/
+    expire_in: 30 days
+  needs:
+    - test:chromium
+    - test:firefox
+    - test:webkit
+    - test:api
+  only:
+    - branches

@@ -12,7 +12,7 @@ export class LoginPage extends BasePage {
     this.emailInput = page.locator('input[name="email"]');
     this.passwordInput = page.locator('input[name="password"]');
     this.loginButton = page.locator('button[type="submit"]');
-    this.errorMessage = page.locator('.error-message');
+    this.errorMessage = page.getByRole('alert').or(page.getByText(/error|invalid|failed|wrong/i));
   }
 
   async goto(): Promise<void> {

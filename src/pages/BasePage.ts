@@ -8,7 +8,16 @@ export class BasePage {
   }
 
   async navigate(url: string): Promise<void> {
-    await this.page.goto(url);
+    let baseUrl = process.env.BASE_URL || 'https://playwright.dev';
+    
+    // Handle encrypted environment variables that can't be decrypted
+    if (baseUrl && baseUrl.startsWith('encrypted:')) {
+      console.warn('BASE_URL is encrypted but cannot be decrypted, falling back to default');
+      baseUrl = 'https://playwright.dev';
+    }
+    
+    const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
+    await this.page.goto(fullUrl);
   }
 
   async getTitle(): Promise<string> {

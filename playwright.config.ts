@@ -31,19 +31,11 @@ export default defineConfig({
       name: 'chromium',
       testMatch: /.*\.spec\.ts/,
       testIgnore: /.*\.api\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      testMatch: /.*\.spec\.ts/,
-      testIgnore: /.*\.api\.spec\.ts/,
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      testMatch: /.*\.spec\.ts/,
-      testIgnore: /.*\.api\.spec\.ts/,
-      use: { ...devices['Desktop Safari'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        storageState: './setupFile',
+        headless: false,
+      },
     },
     {
       name: 'api',

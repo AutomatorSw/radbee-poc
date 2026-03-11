@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "baseUrl": "https://vdxtest.atlassian.net",
+    "wikiSpacesUrl": "/wiki/spaces/SNAP/pages/825163779/gfsdfhgdfshgdfg",
+    "credentials": {
+      "email": "eduard.d@skipper-soft.com",
+      "authMethod": "google"
+    }
+  },
+  "staging": {
+    "baseUrl": "https://vdxtest.atlassian.net",
+    "wikiSpacesUrl": "/wiki/spaces/SNAP/pages/825163779/gfsdfhgdfshgdfg",
+    "credentials": {
+      "email": "eduard.d@skipper-soft.com",
+      "authMethod": "google"
+    }
+  },
+  "production": {
+    "baseUrl": "https://vdxtest.atlassian.net",
+    "wikiSpacesUrl": "/wiki/spaces/SNAP/pages/825163779/gfsdfhgdfshgdfg",
+    "credentials": {
+      "email": "eduard.d@skipper-soft.com",
+      "authMethod": "google"
+    }
+  }
+}
